@@ -23,9 +23,11 @@ import io.grpc.ManagedChannel;
 import io.milvus.grpc.MilvusServiceGrpc;
 import io.milvus.orm.iterator.QueryIterator;
 import io.milvus.orm.iterator.SearchIterator;
+import io.milvus.v2.service.database.DataBaseService;
 import io.milvus.v2.service.collection.CollectionService;
 import io.milvus.v2.service.collection.request.*;
 import io.milvus.v2.service.collection.response.*;
+import io.milvus.v2.service.database.response.ListDatabaseResp;
 import io.milvus.v2.service.index.IndexService;
 import io.milvus.v2.service.index.request.*;
 import io.milvus.v2.service.index.response.*;
@@ -56,6 +58,7 @@ public class MilvusClientV2 {
     @Setter
     private MilvusServiceGrpc.MilvusServiceBlockingStub blockingStub;
     private final ClientUtils clientUtils = new ClientUtils();
+    private final DataBaseService databaseService = new DataBaseService();
     private final CollectionService collectionService = new CollectionService();
     private final IndexService indexService = new IndexService();
     private final VectorService vectorService = new VectorService();
@@ -118,6 +121,15 @@ public class MilvusClientV2 {
         }catch (InterruptedException e){
             logger.error("close connect error");
         }
+    }
+
+    /**
+     * use Database
+     *
+     * @return List of String database names
+     */
+    public ListDatabaseResp listDatabase() {
+        return databaseService.listDatabase(this.blockingStub);
     }
 
     //Collection Operations

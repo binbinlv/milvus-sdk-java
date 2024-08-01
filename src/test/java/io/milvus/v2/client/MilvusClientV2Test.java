@@ -19,9 +19,13 @@
 
 package io.milvus.v2.client;
 
+import io.milvus.client.MilvusClient;
 import io.milvus.v2.BaseTest;
+import io.milvus.v2.service.database.response.ListDatabaseResp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class MilvusClientV2Test extends BaseTest {
 
@@ -36,6 +40,11 @@ public class MilvusClientV2Test extends BaseTest {
             Assertions.assertEquals("Database test not exist", e.getMessage());
         }
 
+    }
+    @Test
+    void testListDatabase() {
+        ListDatabaseResp dbNames = client_v2.listDatabase();
+        Assertions.assertEquals(dbNames.getDbNames().get(0), "default");
     }
 
 }
